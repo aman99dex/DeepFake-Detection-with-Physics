@@ -1,0 +1,87 @@
+# PhysForensics Configuration
+# ============================
+
+model:
+  name: "PhysForensics"
+  backbone: "pbr_nerf"
+
+  # PBR-NeRF Inverse Rendering
+  nerf:
+    hidden_dim: 256
+    num_layers: 8
+    skip_connections: [4]
+    positional_encoding_freqs: 10
+    directional_encoding_freqs: 4
+    sdf_init_variance: 0.3
+
+  # Disney BRDF
+  brdf:
+    albedo_dim: 3
+    roughness_range: [0.05, 1.0]
+    metallic_range: [0.0, 1.0]
+    specular_range: [0.0, 1.0]
+
+  # Neural Incident Light Field
+  neilf:
+    hidden_dim: 128
+    num_layers: 4
+    num_samples: 64
+
+  # Physics Consistency Scorer
+  physics_scorer:
+    ecs_weight: 1.0     # Energy Conservation Score
+    scs_weight: 1.0     # Specular Consistency Score
+    bss_weight: 0.5     # BRDF Smoothness Score
+    ics_weight: 0.5     # Illumination Coherence Score
+    tps_weight: 0.3     # Temporal Physics Stability (video)
+
+  # Forensic Classifier
+  classifier:
+    feature_dim: 512
+    num_physics_features: 5
+    fusion: "attention"  # attention | concat | mlp
+    dropout: 0.3
+
+training:
+  batch_size: 8
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-5
+  num_epochs: 50
+  warmup_epochs: 5
+  scheduler: "cosine"
+
+  # Loss weights
+  loss:
+    bce_weight: 1.0
+    energy_conservation_weight: 0.5
+    specular_weight: 0.3
+    smoothness_weight: 0.2
+
+  # Augmentations
+  augmentation:
+    compression_quality: [30, 100]
+    resize_range: [0.5, 1.5]
+    gaussian_noise_std: 0.01
+    horizontal_flip: true
+
+data:
+  image_size: 256
+  num_workers: 4
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+
+  datasets:
+    - name: "FaceForensics++"
+      path: "data/raw/ff++"
+      manipulations: ["Deepfakes", "Face2Face", "FaceSwap", "NeuralTextures"]
+    - name: "CelebDF-v2"
+      path: "data/raw/celeb-df-v2"
+    - name: "DFDC"
+      path: "data/raw/dfdc"
+
+evaluation:
+  metrics: ["auc", "eer", "accuracy", "f1", "ap"]
+  cross_dataset: true
+  visualization: true
+  save_physics_maps: true

@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(python -c \"import torch; print\\(f''PyTorch: {torch.__version__}''\\); print\\(f''CUDA: {torch.cuda.is_available\\(\\)}''\\)\")",
+      "Bash(pip --version)",
+      "Bash(pip install:*)"
     ]
   }
 }

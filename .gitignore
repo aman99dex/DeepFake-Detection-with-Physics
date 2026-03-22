@@ -1,0 +1,110 @@
+ # Python
+    __pycache__/
+    *.py[cod]
+    *.egg-info/
+    dist/
+    build/
+    *.egg
+
+    # Data (large files)
+    data/raw/
+    data/processed/
+    data/
+    *.zip
+    *.rar
+    *.tar.gz
+    *.7z
+
+    # Model checkpoints
+    outputs/checkpoints/*.pt
+    outputs/logs/
+    outputs/visualizations/
+
+    # Environment
+    .env
+    .venv/
+    venv/
+
+    # HuggingFace cache
+    .cache/
+
+    # IDE
+    .vscode/
+    .idea/
+    *.swp
+
+    # OS
+    .DS_Store
+    Thumbs.db
+
+    # Jupyter
+    .ipynb_checkpoints/
+
+    # Wandb
+    wandb/
+
+    # Unnecessary things
+    *.bak
+    *.tmp
+    *.old
+    *.orig
+    *.rej
+    ~*
+    .#*
+    \#*#
+    *.log
+    *.out
+    *.pid
+    *.seed
+    *.state
+    *.lock
+    *.swp
+    *.swo
+    *~
+    .*.swp
+    .*.swo
+    .DS_Store?
+    ._*
+    .Spotlight-V100
+    .Trashes
+    Icon?
+    ehthumbs.db
+    Thumbs.db
+    *.lnk
+    *.url
+    *.desktop
+    *.exe
+    *.dll
+    *.so
+    *.dylib
+    *.bin
+    *.obj
+    *.lib
+    *.pdb
+    *.ilk
+    *.exp
+    *.map
+    *.dSYM/
+    *.su
+    *.idb
+    *.pdb
+    *.pch
+    *.tmp
+    *.user
+    *.aps
+    *.ncb
+    *.opt
+    *.plg
+    *.bsc
+    *.sbr
+    *.vsssc
+    *.vspscc
+    *.vssscc
+    *.pidb
+    *.svclog
+    *.scc
+    *.vspscc
+    *.vssscc
+    *.pidb
+    *.svclog
+    *.scc

@@ -66,10 +66,11 @@ class DeepfakeDataset(Dataset):
             with open(meta_path) as f:
                 metadata = json.load(f)
             for entry in metadata:
-                samples.append((
-                    str(self.root_dir / entry["path"]),
-                    entry["label"],  # 0=real, 1=fake
-                ))
+                p = self.root_dir / entry["path"]
+                if p.exists():
+                    samples.append((str(p.resolve()), entry["label"]))
+                else:
+                    samples.append((str(p), entry["label"]))
         else:
             # Default structure: real/ and fake/ subdirectories
             real_dir = self.root_dir / "real"
@@ -78,12 +79,12 @@ class DeepfakeDataset(Dataset):
             if real_dir.exists():
                 for img_path in sorted(real_dir.glob("*.*")):
                     if img_path.suffix.lower() in {".png", ".jpg", ".jpeg", ".bmp"}:
-                        samples.append((str(img_path), 0))
+                        samples.append((str(img_path.resolve()), 0))
 
             if fake_dir.exists():
                 for img_path in sorted(fake_dir.glob("*.*")):
                     if img_path.suffix.lower() in {".png", ".jpg", ".jpeg", ".bmp"}:
-                        samples.append((str(img_path), 1))
+                        samples.append((str(img_path.resolve()), 1))
 
         # Split
         random.seed(42)

@@ -368,7 +368,7 @@ class PBRNeRFBackbone(nn.Module):
         grad = torch.autograd.grad(
             sdf.sum(), points, create_graph=True, retain_graph=True
         )[0]
-        return F.normalize(grad, dim=-1)
+        return F.normalize(grad + 1e-8, dim=-1)
 
     def _estimate_light_dirs(
         self, points: torch.Tensor, normals: torch.Tensor

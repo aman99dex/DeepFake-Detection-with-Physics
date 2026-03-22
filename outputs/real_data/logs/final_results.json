@@ -1,0 +1,14 @@
+{
+  "dataset": "data/processed/unified",
+  "model": "v1",
+  "epochs": 10,
+  "best_val_auc": 0.9557617567042362,
+  "test_auc": 0.9662444805949337,
+  "test_eer": 0.09952842977767448,
+  "test_accuracy": 0.9066874027993779,
+  "test_f1": 0.9104477611940298,
+  "test_ap": 0.9581073455381901,
+  "train_samples": 5139,
+  "val_samples": 642,
+  "test_samples": 643
+}

@@ -1,0 +1,23 @@
+# PhysForensics — Optional / Extra Requirements
+# Install these for specific features (not needed for core training/inference)
+
+# ── Experiment Tracking ───────────────────────────────────────────────────────
+# wandb>=0.15.0           # Weights & Biases logging (pip install wandb)
+# tensorboard>=2.14.0     # TensorBoard logging
+
+# ── Video Support ─────────────────────────────────────────────────────────────
+# opencv-python>=4.8.0    # For inference.py --video flag (video frame extraction)
+# Uncomment one of:
+# opencv-python>=4.8.0            # Desktop (includes GUI)
+# opencv-python-headless>=4.8.0   # Server / headless environments
+
+# ── Dataset Downloads ─────────────────────────────────────────────────────────
+# kaggle>=1.5.0           # For downloading DFDC from Kaggle CLI
+# gdown>=4.7.0            # For Google Drive downloads
+
+# ── Advanced Augmentation ─────────────────────────────────────────────────────
+# albumentations>=1.3.0   # Richer augmentation pipeline
+
+# ── 3D Mesh Utilities (not required for core pipeline) ────────────────────────
+# trimesh>=4.0.0          # 3D mesh I/O
+# open3d>=0.17.0          # Point cloud visualization (heavy, skip on Windows if issues)

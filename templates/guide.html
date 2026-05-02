@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhysForensics - Training Guide</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+        header { background: linear-gradient(135deg, #1a2332 0%, #0d1117 100%); border-bottom: 1px solid #30363d; padding: 1.5rem 0; text-align: center; }
+        header h1 { font-size: 1.8rem; color: #58a6ff; }
+        header p { color: #8b949e; font-size: 0.95rem; margin-top: 0.3rem; }
+        nav { display: flex; justify-content: center; gap: 1.5rem; padding: 0.8rem; border-bottom: 1px solid #21262d; background: #161b22; }
+        nav a { color: #8b949e; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: #58a6ff; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .section { margin-bottom: 2.5rem; }
+        .section-title { font-size: 1.2rem; color: #e6edf3; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #30363d; display: flex; align-items: center; gap: 0.5rem; }
+        .step-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+        .step-header { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.2rem; background: #1c2128; border-bottom: 1px solid #30363d; }
+        .step-num { background: #1f6feb; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+        .step-title { font-weight: 600; color: #e6edf3; font-size: 0.95rem; }
+        .step-badge { margin-left: auto; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 20px; }
+        .badge-free { background: #1a3a1a; color: #3fb950; border: 1px solid #3fb95055; }
+        .badge-manual { background: #3a2a1a; color: #d29922; border: 1px solid #d2992255; }
+        .badge-optional { background: #1a1a3a; color: #8b949e; border: 1px solid #30363d; }
+        .step-body { padding: 1rem 1.2rem; }
+        .step-body p { font-size: 0.88rem; color: #8b949e; margin-bottom: 0.8rem; }
+        code { background: #1c2128; border: 1px solid #30363d; border-radius: 4px; padding: 0.15rem 0.4rem; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.82rem; color: #79c0ff; }
+        .code-block { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; padding: 1rem 1.2rem; margin: 0.6rem 0; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.83rem; line-height: 1.7; overflow-x: auto; }
+        .code-block .comment { color: #6e7681; }
+        .code-block .cmd { color: #79c0ff; }
+        .code-block .arg { color: #ffa657; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; }
+        .status-card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 0.9rem; display: flex; align-items: center; gap: 0.8rem; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .dot-green { background: #3fb950; box-shadow: 0 0 6px #3fb95066; }
+        .dot-red { background: #f85149; }
+        .dot-yellow { background: #d29922; }
+        .status-label { font-size: 0.85rem; color: #c9d1d9; }
+        .status-sub { font-size: 0.75rem; color: #6e7681; margin-top: 0.1rem; }
+        .tip-box { background: #0f2239; border: 1px solid #1f6feb55; border-left: 3px solid #58a6ff; border-radius: 6px; padding: 0.9rem 1.1rem; margin: 0.8rem 0; font-size: 0.86rem; color: #8b949e; }
+        .tip-box strong { color: #58a6ff; }
+        .warn-box { background: #2a1f00; border-left: 3px solid #d29922; border-radius: 6px; padding: 0.9rem 1.1rem; margin: 0.8rem 0; font-size: 0.86rem; color: #8b949e; }
+        .warn-box strong { color: #d29922; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: #161b22; border-radius: 6px; overflow: hidden; border: 1px solid #30363d; margin: 0.8rem 0; }
+        th { background: #1c2128; color: #8b949e; padding: 0.6rem 1rem; text-align: left; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 1px solid #30363d; }
+        td { padding: 0.55rem 1rem; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+        tr:last-child td { border-bottom: none; }
+        .highlight { color: #3fb950; font-weight: 600; }
+        footer { text-align: center; padding: 2rem; border-top: 1px solid #30363d; color: #6e7681; font-size: 0.82rem; margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PhysForensics — Training Guide</h1>
+        <p>Step-by-step instructions to get real data and train the model</p>
+    </header>
+    <nav>
+        <a href="/">Dashboard</a>
+        <a href="/guide" class="active">Training Guide</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- Status -->
+        <div class="section">
+            <div class="section-title">&#9679; Current Status</div>
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-dot {% if data_status.unified_dataset %}dot-green{% else %}dot-red{% endif %}"></div>
+                    <div>
+                        <div class="status-label">Unified Dataset</div>
+                        <div class="status-sub">
+                            {% if data_status.unified_dataset %}
+                                {{ data_status.unified_count }} images ({{ data_status.unified_real }} real, {{ data_status.unified_fake }} fake)
+                            {% else %}
+                                Not found — run prepare_data.py
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-dot {% if data_status.get('ff++_available') %}dot-green{% else %}dot-red{% endif %}"></div>
+                    <div>
+                        <div class="status-label">FaceForensics++</div>
+                        <div class="status-sub">{% if data_status.get('ff++_available') %}Available{% else %}Not found — manual download{% endif %}</div>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-dot {% if data_status.get('celeb-df_available') %}dot-green{% else %}dot-red{% endif %}"></div>
+                    <div>
+                        <div class="status-label">CelebDF-v2</div>
+                        <div class="status-sub">{% if data_status.get('celeb-df_available') %}Available{% else %}Not found — manual download{% endif %}</div>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-dot {% if data_status.get('dfdc_available') %}dot-green{% else %}dot-red{% endif %}"></div>
+                    <div>
+                        <div class="status-label">DFDC</div>
+                        <div class="status-sub">{% if data_status.get('dfdc_available') %}Available{% else %}Not found — manual download{% endif %}</div>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-dot {% if data_status.v1_checkpoint %}dot-green{% else %}dot-yellow{% endif %}"></div>
+                    <div>
+                        <div class="status-label">v1 Checkpoint</div>
+                        <div class="status-sub">{% if data_status.v1_checkpoint %}Trained (AUC 0.9662){% else %}Not trained yet{% endif %}</div>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-dot {% if data_status.v2_checkpoint %}dot-green{% else %}dot-yellow{% endif %}"></div>
+                    <div>
+                        <div class="status-label">v2 Extended Checkpoint</div>
+                        <div class="status-sub">{% if data_status.v2_checkpoint %}Trained{% else %}Not trained yet{% endif %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Free Data -->
+        <div class="section">
+            <div class="section-title">&#8595; Data Preparation</div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-num">1</div>
+                    <div class="step-title">Download Free Datasets (Auto)</div>
+                    <span class="step-badge badge-free">FREE — Auto Download</span>
+                </div>
+                <div class="step-body">
+                    <p>This downloads ~120K real/fake face images from HuggingFace and organizes them into a unified training set. No sign-up required.</p>
+                    <div class="code-block">
+<span class="comment"># Install HuggingFace hub first (if not installed)</span>
+<span class="cmd">pip install</span> <span class="arg">huggingface_hub datasets</span>
+
+<span class="comment"># Download and prepare everything</span>
+<span class="cmd">python scripts/prepare_data.py</span>
+
+<span class="comment"># Check what was downloaded</span>
+<span class="cmd">python scripts/prepare_data.py</span> <span class="arg">--check</span>
+                    </div>
+                    <p>This gives you <strong>~120K images</strong> — enough for a good first training run.</p>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-num">2</div>
+                    <div class="step-title">FaceForensics++ (Academic Benchmark)</div>
+                    <span class="step-badge badge-manual">Manual — Free for Research</span>
+                </div>
+                <div class="step-body">
+                    <p>The gold-standard deepfake benchmark. 1,000 original + 4,000 manipulated videos. Required for publishing results.</p>
+                    <div class="code-block">
+<span class="comment"># 1. Request access (fill a short form):</span>
+<span class="comment">#    https://github.com/ondyari/FaceForensics</span>
+
+<span class="comment"># 2. Download and extract video frames</span>
+<span class="comment"># 3. Place extracted frames at:</span>
+<span class="comment">#    data/raw/ff++/real/  ← frames from original_sequences/</span>
+<span class="comment">#    data/raw/ff++/fake/  ← frames from any manipulation (Deepfakes, Face2Face, etc.)</span>
+
+<span class="comment"># 4. Rebuild unified dataset including FF++</span>
+<span class="cmd">python scripts/prepare_data.py</span> <span class="arg">--include-manual</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-num">3</div>
+                    <div class="step-title">CelebDF-v2</div>
+                    <span class="step-badge badge-manual">Manual — Free Direct Download</span>
+                </div>
+                <div class="step-body">
+                    <p>590 real + 5,639 synthesized celebrity videos. High visual quality, harder to detect. No sign-up needed.</p>
+                    <div class="code-block">
+<span class="comment"># Download from GitHub:</span>
+<span class="comment">#   https://github.com/yuezunli/celeb-deepfakeforensics</span>
+<span class="comment"># Place frames at:</span>
+<span class="comment">#   data/raw/celeb-df/real/</span>
+<span class="comment">#   data/raw/celeb-df/fake/</span>
+
+<span class="cmd">python scripts/prepare_data.py</span> <span class="arg">--include-manual</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-num">4</div>
+                    <div class="step-title">DFDC (DeepFake Detection Challenge)</div>
+                    <span class="step-badge badge-manual">Manual — Kaggle Account Required</span>
+                </div>
+                <div class="step-body">
+                    <p>The largest deepfake dataset: 100K+ video clips, multiple generators. Most challenging real-world benchmark.</p>
+                    <div class="code-block">
+<span class="comment"># Requires free Kaggle account</span>
+<span class="comment"># https://kaggle.com/competitions/deepfake-detection-challenge/data</span>
+<span class="comment"># Place frames at:</span>
+<span class="comment">#   data/raw/dfdc/real/</span>
+<span class="comment">#   data/raw/dfdc/fake/</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Training -->
+        <div class="section">
+            <div class="section-title">&#9654; Training</div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-num">5</div>
+                    <div class="step-title">Train v2 Extended (10-score model)</div>
+                    <span class="step-badge badge-free">Recommended</span>
+                </div>
+                <div class="step-body">
+                    <p>The new <code>train_v2.py</code> script trains the 10-score model with mixed precision, gradient accumulation, and warmup scheduling.</p>
+                    <div class="code-block">
+<span class="comment"># Quick test (5 epochs, makes sure everything works)</span>
+<span class="cmd">python train_v2.py</span> <span class="arg">--epochs 5 --max-samples 200 --synthetic-fallback</span>
+
+<span class="comment"># Standard run with free HuggingFace data</span>
+<span class="cmd">python train_v2.py</span> <span class="arg">--data data/processed/unified --epochs 30</span>
+
+<span class="comment"># Full quality training (needs GPU, 50 epochs)</span>
+<span class="cmd">python train_v2.py</span> <span class="arg">--data data/processed/unified --epochs 50 \</span>
+<span class="arg">    --nerf-hidden 256 --nerf-layers 8 --sample-points 1024 \</span>
+<span class="arg">    --batch-size 16 --gtr-samples 128</span>
+
+<span class="comment"># Resume from checkpoint</span>
+<span class="cmd">python train_v2.py</span> <span class="arg">--resume outputs/v2_extended/checkpoints/last.pt</span>
+                    </div>
+                    <div class="tip-box">
+                        <strong>GPU Tip:</strong> Training on CPU is possible but slow. For 30 epochs on ~100K images, expect ~6-8 hours on CPU vs ~45 minutes on a T4 GPU (free on Google Colab).
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-num">6</div>
+                    <div class="step-title">Cross-Dataset Evaluation</div>
+                    <span class="step-badge badge-free">Critical Test</span>
+                </div>
+                <div class="step-body">
+                    <p>Train on one dataset, test on others <strong>without retraining</strong>. This is the real test of physics-based generalization.</p>
+                    <div class="code-block">
+<span class="comment"># Evaluate best model across all available datasets</span>
+<span class="cmd">python scripts/cross_dataset_eval.py</span> <span class="arg">--model v2_extended</span>
+
+<span class="comment"># Compare v1 vs v2_extended</span>
+<span class="cmd">python scripts/cross_dataset_eval.py</span> <span class="arg">\</span>
+<span class="arg">    --checkpoints outputs/real_data/checkpoints/best_model.pt \</span>
+<span class="arg">                  outputs/v2_extended/checkpoints/best_model.pt \</span>
+<span class="arg">    --names V1 V2_Extended --model v2_extended</span>
+                    </div>
+                    <div class="warn-box">
+                        <strong>Expected:</strong> AUC drops ~2-5% across datasets for PhysForensics (physics generalizes). Compare with XceptionNet which drops from 0.997 on FF++ to ~0.65 on CelebDF.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physics Scores Reference -->
+        <div class="section">
+            <div class="section-title">&#9881; 10 Physics Scores Reference</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Score</th>
+                        <th>Full Name</th>
+                        <th>Physical Law</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td><code>ECS</code></td><td>Energy Conservation Score</td><td>Reflected energy ≤ incident energy (GTR VNDF)</td><td>advanced_physics.py</td></tr>
+                    <tr><td>2</td><td><code>SCS</code></td><td>Specular Consistency Score</td><td>GGX NDF predicts specular highlight shape</td><td>physics_scorer.py</td></tr>
+                    <tr><td>3</td><td><code>BSS</code></td><td>BRDF Smoothness Score</td><td>Real skin materials vary smoothly in space</td><td>physics_scorer.py</td></tr>
+                    <tr><td>4</td><td><code>ICS</code></td><td>Illumination Coherence Score</td><td>Lighting energy concentrated in SH l=0,1 bands</td><td>physforensics_v2.py</td></tr>
+                    <tr><td>5</td><td><code>TPS</code></td><td>Temporal Physics Stability</td><td>Physics stable across video frames</td><td>physics_scorer.py</td></tr>
+                    <tr><td>6</td><td><code>SSS</code></td><td>Subsurface Scattering Score</td><td>Skin RGB ratio R > G > B (Jensen dipole)</td><td>advanced_physics.py</td></tr>
+                    <tr><td>7</td><td><code>FAS</code></td><td>Fresnel Anomaly Score</td><td>Skin F₀ ≈ 0.028 (n=1.4, hard constraint)</td><td>advanced_physics.py</td></tr>
+                    <tr><td>8</td><td><code>WAS</code></td><td>Wasserstein Anomaly Score</td><td>Mahalanobis distance from real physics distribution</td><td>advanced_physics.py</td></tr>
+                    <tr class="highlight"><td>9</td><td><code>ShCS</code></td><td>Shadow Consistency Score</td><td>Cast shadows align with SH light direction</td><td>shadow_consistency.py</td></tr>
+                    <tr class="highlight"><td>10</td><td><code>SpSS</code></td><td>Spectral Skin Score</td><td>Face color explainable by melanin + hemoglobin</td><td>spectral_skin.py</td></tr>
+                </tbody>
+            </table>
+            <p style="font-size:0.8rem; color:#6e7681; margin-top:0.5rem;">Rows 9-10 highlighted in green are newly implemented signals.</p>
+        </div>
+
+        <!-- Hardware Recommendations -->
+        <div class="section">
+            <div class="section-title">&#128187; Hardware &amp; Cloud Recommendations</div>
+            <table>
+                <thead>
+                    <tr><th>Platform</th><th>GPU</th><th>Cost</th><th>Recommended For</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Google Colab (free)</td><td>T4 GPU</td><td>Free (time-limited)</td><td>Initial training, 10-20 epochs</td></tr>
+                    <tr><td>Kaggle Notebooks</td><td>P100 GPU</td><td>Free (30 hrs/week)</td><td>30-50 epoch runs</td></tr>
+                    <tr><td>Google Colab Pro</td><td>A100 GPU</td><td>~$10/month</td><td>Full training pipeline</td></tr>
+                    <tr><td>Vast.ai</td><td>RTX 3090/4090</td><td>~$0.30/hr</td><td>Batch training runs</td></tr>
+                    <tr><td>Lambda Labs</td><td>A10 / A100</td><td>~$0.60-$1.50/hr</td><td>Production training</td></tr>
+                    <tr><td>Local Machine</td><td>Any CUDA GPU</td><td>Free</td><td>Best for iteration speed</td></tr>
+                </tbody>
+            </table>
+            <div class="tip-box">
+                <strong>Colab Quick Start:</strong> Push your code to GitHub, then in Colab:
+                <code>!git clone https://github.com/your/repo && cd repo && pip install torch torchvision flask scikit-learn scipy matplotlib einops kornia timm && python scripts/prepare_data.py && python train_v2.py --epochs 30</code>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>PhysForensics — Physics-Based Deepfake Detection</footer>
+</body>
+</html>

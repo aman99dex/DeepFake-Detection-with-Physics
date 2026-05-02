@@ -1,1 +1,3 @@
 from .physics_losses import PhysicsForensicsLoss
+from .advanced_losses import PhysicsForensicsLossV2
+from .extended_losses import PhysicsForensicsLossExtended

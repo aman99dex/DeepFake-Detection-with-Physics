@@ -3,194 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhysForensics - Deepfake Detection via Physics-Based Neural Rendering</title>
+    <title>PhysForensics — Deepfake Detection via Physics-Based Neural Rendering</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0d1117;
-            color: #c9d1d9;
-            line-height: 1.6;
-        }
-        header {
-            background: linear-gradient(135deg, #1a2332 0%, #0d1117 100%);
-            border-bottom: 1px solid #30363d;
-            padding: 2rem 0;
-            text-align: center;
-        }
-        header h1 {
-            font-size: 2.2rem;
-            color: #58a6ff;
-            letter-spacing: -0.5px;
-        }
-        header p {
-            color: #8b949e;
-            font-size: 1.05rem;
-            margin-top: 0.5rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .badge {
-            display: inline-block;
-            background: #1f6feb22;
-            color: #58a6ff;
-            border: 1px solid #1f6feb55;
-            border-radius: 20px;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.8rem;
-            margin: 0.5rem 0.2rem 0;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-        .section-title {
-            font-size: 1.3rem;
-            color: #e6edf3;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #30363d;
-        }
-        .section-title span {
-            color: #58a6ff;
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-        .metric-card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 1.2rem;
-            text-align: center;
-            transition: border-color 0.2s;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+        header { background: linear-gradient(135deg, #1a2332 0%, #0d1117 100%); border-bottom: 1px solid #30363d; padding: 2rem 0; text-align: center; }
+        header h1 { font-size: 2.2rem; color: #58a6ff; letter-spacing: -0.5px; }
+        header p { color: #8b949e; font-size: 1.05rem; margin-top: 0.5rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .badge { display: inline-block; background: #1f6feb22; color: #58a6ff; border: 1px solid #1f6feb55; border-radius: 20px; padding: 0.2rem 0.8rem; font-size: 0.8rem; margin: 0.5rem 0.2rem 0; }
+        nav { display: flex; justify-content: center; gap: 1.5rem; padding: 0.8rem; border-bottom: 1px solid #21262d; background: #161b22; }
+        nav a { color: #8b949e; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: #58a6ff; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .section-title { font-size: 1.3rem; color: #e6edf3; font-weight: 600; margin-bottom: 1.2rem; padding-bottom: 0.5rem; border-bottom: 1px solid #30363d; }
+        .section-title span { color: #58a6ff; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+        .metric-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.2rem; text-align: center; transition: border-color 0.2s; }
         .metric-card:hover { border-color: #58a6ff55; }
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #3fb950;
-            display: block;
-        }
-        .metric-label {
-            font-size: 0.82rem;
-            color: #8b949e;
-            margin-top: 0.3rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .metric-sub {
-            font-size: 0.75rem;
-            color: #6e7681;
-            margin-top: 0.2rem;
-        }
-        .images-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.2rem;
-            margin-bottom: 2.5rem;
-        }
-        .image-card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .image-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: contain;
-            background: #0d1117;
-            padding: 0.5rem;
-        }
-        .image-caption {
-            padding: 0.7rem 1rem;
-            font-size: 0.85rem;
-            color: #8b949e;
-            border-top: 1px solid #30363d;
-        }
+        .metric-value { font-size: 2rem; font-weight: 700; color: #3fb950; display: block; }
+        .metric-label { font-size: 0.82rem; color: #8b949e; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .metric-sub { font-size: 0.75rem; color: #6e7681; margin-top: 0.2rem; }
+        .images-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+        .image-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; }
+        .image-card img { width: 100%; height: 220px; object-fit: contain; background: #0d1117; padding: 0.5rem; }
+        .image-caption { padding: 0.7rem 1rem; font-size: 0.85rem; color: #8b949e; border-top: 1px solid #30363d; }
         .image-caption strong { color: #e6edf3; }
-        .training-section {
-            margin-bottom: 2.5rem;
-        }
-        .training-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            background: #161b22;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #30363d;
-        }
-        .training-table th {
-            background: #1c2128;
-            color: #8b949e;
-            padding: 0.7rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid #30363d;
-        }
-        .training-table td {
-            padding: 0.6rem 1rem;
-            border-bottom: 1px solid #21262d;
-            color: #c9d1d9;
-        }
+        .training-section { margin-bottom: 2.5rem; }
+        .training-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; background: #161b22; border-radius: 8px; overflow: hidden; border: 1px solid #30363d; }
+        .training-table th { background: #1c2128; color: #8b949e; padding: 0.7rem 1rem; text-align: left; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #30363d; }
+        .training-table td { padding: 0.6rem 1rem; border-bottom: 1px solid #21262d; color: #c9d1d9; }
         .training-table tr:last-child td { border-bottom: none; }
         .training-table tr:hover td { background: #1c2128; }
         .training-table .best-row td { color: #3fb950; font-weight: 600; }
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem; }
-        @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
-        .info-card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 1.2rem;
-        }
-        .info-card h3 {
-            color: #58a6ff;
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-        }
-        .info-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        .info-card li {
-            padding: 0.3rem 0;
-            border-bottom: 1px solid #21262d;
-            font-size: 0.88rem;
-            color: #8b949e;
-        }
+        .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2.5rem; }
+        @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } .three-col { grid-template-columns: 1fr; } }
+        .info-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.2rem; }
+        .info-card h3 { color: #58a6ff; font-size: 1rem; margin-bottom: 0.8rem; }
+        .info-card ul { list-style: none; padding: 0; }
+        .info-card li { padding: 0.3rem 0; border-bottom: 1px solid #21262d; font-size: 0.88rem; color: #8b949e; }
         .info-card li:last-child { border-bottom: none; }
         .info-card li strong { color: #c9d1d9; }
-        .highlight-box {
-            background: #0f2239;
-            border: 1px solid #1f6feb55;
-            border-left: 3px solid #58a6ff;
-            border-radius: 6px;
-            padding: 1rem 1.2rem;
-            margin-bottom: 2rem;
-            font-size: 0.92rem;
-            color: #8b949e;
-        }
+        .highlight-box { background: #0f2239; border: 1px solid #1f6feb55; border-left: 3px solid #58a6ff; border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 2rem; font-size: 0.92rem; color: #8b949e; }
         .highlight-box strong { color: #58a6ff; }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 1px solid #30363d;
-            color: #6e7681;
-            font-size: 0.85rem;
-            margin-top: 2rem;
-        }
+        .new-box { background: #0a2a0a; border: 1px solid #3fb95055; border-left: 3px solid #3fb950; border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: #8b949e; }
+        .new-box strong { color: #3fb950; }
+        .score-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.8rem; margin-bottom: 2.5rem; }
+        .score-card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 0.9rem; }
+        .score-card.new-score { border-color: #3fb95044; background: #0a2a0a; }
+        .score-name { font-weight: 700; font-size: 1rem; color: #58a6ff; }
+        .score-card.new-score .score-name { color: #3fb950; }
+        .score-full { font-size: 0.8rem; color: #8b949e; margin: 0.2rem 0 0.4rem; }
+        .score-desc { font-size: 0.78rem; color: #6e7681; line-height: 1.5; }
+        .new-tag { display: inline-block; background: #3fb95022; color: #3fb950; border-radius: 4px; padding: 0.05rem 0.4rem; font-size: 0.7rem; margin-left: 0.4rem; vertical-align: middle; }
+        code { background: #1c2128; border: 1px solid #30363d; border-radius: 4px; padding: 0.1rem 0.4rem; font-family: 'SF Mono', monospace; font-size: 0.8rem; color: #79c0ff; }
+        footer { text-align: center; padding: 2rem; border-top: 1px solid #30363d; color: #6e7681; font-size: 0.85rem; margin-top: 2rem; }
     </style>
 </head>
 <body>
@@ -200,10 +67,17 @@
         <div>
             <span class="badge">PBR-NeRF</span>
             <span class="badge">Disney BRDF</span>
-            <span class="badge">Neural Incident Light Field</span>
-            <span class="badge">Physics Consistency Scoring</span>
+            <span class="badge">Spherical Harmonics</span>
+            <span class="badge">10 Physics Scores</span>
+            <span class="badge">Shadow Consistency</span>
+            <span class="badge">Spectral Skin Model</span>
         </div>
     </header>
+
+    <nav>
+        <a href="/" class="active">Dashboard</a>
+        <a href="/guide">Training Guide</a>
+    </nav>
 
     <div class="container">
 
@@ -211,8 +85,15 @@
             <strong>Core Insight:</strong> Real faces strictly obey the physics of light transport — energy conservation, Fresnel reflectance, subsurface scattering, and microfacet BRDFs. Deepfakes, even state-of-the-art ones, systematically violate these physical laws in ways invisible to the human eye but detectable by our model.
         </div>
 
+        <div class="new-box">
+            <strong>What's New — v2 Extended (10-Score Model):</strong> Added two new physics signals on top of the original 8.
+            <strong>Shadow Consistency (ShCS)</strong> — cast shadows must align geometrically with the estimated light direction from Spherical Harmonics.
+            <strong>Spectral Skin (SpSS)</strong> — face color must be explainable by valid melanin and hemoglobin concentrations using Beer-Lambert spectral absorption.
+            See the <a href="/guide" style="color:#3fb950;">Training Guide</a> to get data and run training.
+        </div>
+
         {% if real_results %}
-        <h2 class="section-title"><span>&#9650;</span> Results — Real Deepfake Data</h2>
+        <h2 class="section-title"><span>&#9650;</span> Results — Real Deepfake Data (v1)</h2>
         <div class="metrics-grid">
             <div class="metric-card">
                 <span class="metric-value">{{ "%.4f"|format(real_results.test_auc) }}</span>
@@ -242,19 +123,101 @@
         </div>
         {% endif %}
 
+        {% if v2_results %}
+        <h2 class="section-title"><span>&#9650;</span> Results — v2 Extended (10-Score Model)</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-value">{{ "%.4f"|format(v2_results.test_auc) }}</span>
+                <div class="metric-label">AUC-ROC</div><div class="metric-sub">v2 Extended</div>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">{{ "%.1f%%"|format(v2_results.test_accuracy * 100) }}</span>
+                <div class="metric-label">Accuracy</div><div class="metric-sub">v2 Extended</div>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">{{ "%.4f"|format(v2_results.test_f1) }}</span>
+                <div class="metric-label">F1 Score</div><div class="metric-sub">v2 Extended</div>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">{{ "%.2f%%"|format(v2_results.test_eer * 100) }}</span>
+                <div class="metric-label">EER</div><div class="metric-sub">v2 Extended</div>
+            </div>
+            <div class="metric-card">
+                <span class="metric-value">{{ "%.4f"|format(v2_results.test_ap) }}</span>
+                <div class="metric-label">Avg Precision</div><div class="metric-sub">v2 Extended</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- 10 Physics Scores -->
+        <h2 class="section-title"><span>&#9881;</span> 10 Physics Consistency Scores</h2>
+        <div class="score-grid">
+            <div class="score-card">
+                <div class="score-name">ECS</div>
+                <div class="score-full">Energy Conservation Score</div>
+                <div class="score-desc">Reflected energy ≤ incident energy. Uses GTR VNDF importance sampling for 10× lower Monte Carlo variance.</div>
+            </div>
+            <div class="score-card">
+                <div class="score-name">SCS</div>
+                <div class="score-full">Specular Consistency Score</div>
+                <div class="score-desc">GGX NDF predicts the exact specular highlight shape for a given roughness. Deepfakes get this wrong.</div>
+            </div>
+            <div class="score-card">
+                <div class="score-name">BSS</div>
+                <div class="score-full">BRDF Smoothness Score</div>
+                <div class="score-desc">Real skin material properties vary smoothly in space. Abrupt BRDF jumps indicate artificial generation.</div>
+            </div>
+            <div class="score-card">
+                <div class="score-name">ICS</div>
+                <div class="score-full">Illumination Coherence Score</div>
+                <div class="score-desc">Real faces concentrate lighting energy in SH bands l=0,1. Fakes leak into l=2 (quadratic/noisy terms).</div>
+            </div>
+            <div class="score-card">
+                <div class="score-name">TPS</div>
+                <div class="score-full">Temporal Physics Stability</div>
+                <div class="score-desc">Physics properties must be stable across video frames. Deepfakes show inter-frame physics flickering.</div>
+            </div>
+            <div class="score-card">
+                <div class="score-name">SSS</div>
+                <div class="score-full">Subsurface Scattering Score</div>
+                <div class="score-desc">Skin is translucent — red light scatters deeper than blue, so R &gt; G &gt; B always holds (Jensen dipole model).</div>
+            </div>
+            <div class="score-card">
+                <div class="score-name">FAS</div>
+                <div class="score-full">Fresnel Anomaly Score</div>
+                <div class="score-desc">Skin Fresnel reflectance F₀ ≈ 0.028 (refractive index ~1.4). A hard physical constant deepfakes violate.</div>
+            </div>
+            <div class="score-card">
+                <div class="score-name">WAS</div>
+                <div class="score-full">Wasserstein Anomaly Score</div>
+                <div class="score-desc">Mahalanobis distance from the calibrated distribution of real-face physics. Distribution-level anomaly detection.</div>
+            </div>
+            <div class="score-card new-score">
+                <div class="score-name">ShCS <span class="new-tag">NEW</span></div>
+                <div class="score-full">Shadow Consistency Score</div>
+                <div class="score-desc">Cast shadows must align with the dominant light direction from SH. Detects faces composited under mismatched lighting.</div>
+            </div>
+            <div class="score-card new-score">
+                <div class="score-name">SpSS <span class="new-tag">NEW</span></div>
+                <div class="score-full">Spectral Skin Score</div>
+                <div class="score-desc">Face color must be explainable by valid melanin + hemoglobin concentrations via Beer-Lambert spectral absorption.</div>
+            </div>
+        </div>
+
+        <!-- Visualizations -->
         <h2 class="section-title"><span>&#128444;</span> Visualizations — Real Data</h2>
         <div class="images-grid">
             <div class="image-card">
                 <img src="/images/real/real_roc_curve.png" alt="ROC Curve (Real Data)" loading="lazy">
-                <div class="image-caption"><strong>ROC Curve (Real Data)</strong> — AUC = 0.9662. Achieves ~85% TPR at only 5% FPR.</div>
+                <div class="image-caption"><strong>ROC Curve (Real Data)</strong> — AUC = 0.9662. ~85% TPR at only 5% FPR.</div>
             </div>
             <div class="image-card">
-                <img src="/images/real/real_training_curves.png" alt="Training Curves (Real Data)" loading="lazy">
-                <div class="image-caption"><strong>Training Progress (Real Data)</strong> — Val AUC climbing from 0.84 to 0.96 over 10 epochs.</div>
+                <img src="/images/real/real_training_curves.png" alt="Training Curves" loading="lazy">
+                <div class="image-caption"><strong>Training Progress</strong> — Val AUC climbing from 0.84 to 0.96 over 10 epochs.</div>
             </div>
             <div class="image-card">
                 <img src="/images/real/real_physics_distribution.png" alt="Physics Score Distributions" loading="lazy">
-                <div class="image-caption"><strong>Physics Score Distributions</strong> — Real (green) vs Fake (red). Specular Consistency Score shows clearest separation.</div>
+                <div class="image-caption"><strong>Physics Score Distributions</strong> — Real (green) vs Fake (red). Specular Consistency shows clearest separation.</div>
             </div>
         </div>
 
@@ -262,31 +225,27 @@
         <div class="images-grid">
             <div class="image-card">
                 <img src="/images/synth/roc_curve.png" alt="ROC Curve (Synthetic)" loading="lazy">
-                <div class="image-caption"><strong>ROC Curve (Synthetic Data)</strong> — AUC = 0.9997 on controlled data with known ground-truth physics parameters.</div>
+                <div class="image-caption"><strong>ROC Curve (Synthetic)</strong> — AUC = 0.9997 on controlled ground-truth PBR data.</div>
             </div>
             <div class="image-card">
                 <img src="/images/synth/training_curves.png" alt="Training Curves (Synthetic)" loading="lazy">
-                <div class="image-caption"><strong>Training Progress (Synthetic Data)</strong> — Near-perfect validation performance on synthetic PBR data.</div>
+                <div class="image-caption"><strong>Training Progress (Synthetic)</strong> — Near-perfect validation on synthetic PBR data.</div>
             </div>
             <div class="image-card">
                 <img src="/images/synth/physics_scores_distribution.png" alt="Physics Scores (Synthetic)" loading="lazy">
-                <div class="image-caption"><strong>Physics Score Distributions (Synthetic)</strong> — Near-perfect separation with controlled BRDF parameters.</div>
+                <div class="image-caption"><strong>Physics Distributions (Synthetic)</strong> — Near-perfect separation with controlled BRDF parameters.</div>
             </div>
         </div>
 
+        <!-- Training Log -->
         {% if real_training %}
-        <h2 class="section-title"><span>&#128200;</span> Training Log — Real Data (10 Epochs)</h2>
+        <h2 class="section-title"><span>&#128200;</span> Training Log — Real Data (v1, 10 Epochs)</h2>
         <div class="training-section">
             <table class="training-table">
                 <thead>
                     <tr>
-                        <th>Epoch</th>
-                        <th>Train Loss</th>
-                        <th>Train Acc</th>
-                        <th>Val Loss</th>
-                        <th>Val AUC</th>
-                        <th>Val Acc</th>
-                        <th>LR</th>
+                        <th>Epoch</th><th>Train Loss</th><th>Train Acc</th>
+                        <th>Val Loss</th><th>Val AUC</th><th>Val Acc</th><th>LR</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -307,32 +266,19 @@
         </div>
         {% endif %}
 
-        <div class="two-col">
+        <!-- Info Cards -->
+        <div class="three-col">
             <div class="info-card">
-                <h3>Architecture Components</h3>
+                <h3>Architecture Pipeline</h3>
                 <ul>
-                    <li><strong>PBR-NeRF Backbone</strong> — SDF + Disney BRDF + NeILF inverse rendering</li>
-                    <li><strong>Physics Consistency Scorer</strong> — 5 physics scores (ECS, SCS, BSS, ICS, TPS)</li>
-                    <li><strong>Forensic Classifier</strong> — Cross-attention fusion of visual + physics features</li>
-                    <li><strong>Face Point Sampler</strong> — Learnable depth estimator lifting 2D to 3D</li>
-                    <li><strong>CLIP Backbone</strong> — Visual feature extraction with gated fusion</li>
-                    <li><strong>Advanced Physics (v2)</strong> — SH lighting, SSS, GTR BRDF, Wasserstein loss</li>
+                    <li><strong>Face Point Sampler</strong> — Learnable depth net lifts 2D → 3D</li>
+                    <li><strong>PBR-NeRF Backbone</strong> — SDF + Disney BRDF decomposition</li>
+                    <li><strong>SH Lighting</strong> — 2nd-order Spherical Harmonics (27 params)</li>
+                    <li><strong>10-Score Scorer</strong> — ECS, SCS, BSS, ICS, TPS, SSS, FAS, WAS, ShCS, SpSS</li>
+                    <li><strong>Wasserstein Detector</strong> — Distribution-level anomaly</li>
+                    <li><strong>Cross-Attention Classifier</strong> — Physics × visual fusion</li>
                 </ul>
             </div>
-            <div class="info-card">
-                <h3>Physics Laws Enforced</h3>
-                <ul>
-                    <li><strong>Energy Conservation</strong> — Reflected light cannot exceed incident light</li>
-                    <li><strong>Fresnel Equations</strong> — F = F₀ + (1-F₀)(1-cosθ)⁵</li>
-                    <li><strong>Microfacet BRDF</strong> — Surface roughness determines specular highlight shape</li>
-                    <li><strong>Subsurface Scattering</strong> — Jensen dipole model for skin translucency</li>
-                    <li><strong>Coherent Illumination</strong> — Single consistent light field per face</li>
-                    <li><strong>Temporal Stability</strong> — Physics should be consistent across video frames</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="two-col">
             <div class="info-card">
                 <h3>Dataset &amp; Training</h3>
                 <ul>
@@ -340,22 +286,48 @@
                     <li><strong>Train Samples:</strong> {{ "{:,}".format(real_results.train_samples) }}</li>
                     <li><strong>Val Samples:</strong> {{ "{:,}".format(real_results.val_samples) }}</li>
                     <li><strong>Test Samples:</strong> {{ "{:,}".format(real_results.test_samples) }}</li>
-                    <li><strong>Epochs:</strong> {{ real_results.epochs }}</li>
                     {% endif %}
-                    <li><strong>Optimizer:</strong> AdamW, cosine LR schedule</li>
-                    <li><strong>Image Size:</strong> 256 × 256</li>
-                    <li><strong>Loss:</strong> BCE + Energy Conservation + Specular + Smoothness</li>
+                    <li><strong>Free data (~120K):</strong> HuggingFace deepfake datasets</li>
+                    <li><strong>Academic (~1M+):</strong> FF++, CelebDF-v2, DFDC</li>
+                    <li><strong>Loss:</strong> BCE + 9 physics-based terms</li>
+                    <li><strong>Optimizer:</strong> AdamW, cosine + warmup LR</li>
                 </ul>
             </div>
             <div class="info-card">
-                <h3>Usage</h3>
+                <h3>Quick Start</h3>
                 <ul>
-                    <li><strong>Inference:</strong> python inference.py --image face.jpg</li>
-                    <li><strong>Video:</strong> python inference.py --video video.mp4</li>
-                    <li><strong>Directory:</strong> python inference.py --dir images/</li>
-                    <li><strong>Training:</strong> python train.py --config configs/default.yaml</li>
-                    <li><strong>Synthetic:</strong> python train.py --synthetic</li>
-                    <li><strong>Tests:</strong> python test_model.py</li>
+                    <li><strong>Get data:</strong> <code>python scripts/prepare_data.py</code></li>
+                    <li><strong>Train v2:</strong> <code>python train_v2.py</code></li>
+                    <li><strong>Cross-eval:</strong> <code>python scripts/cross_dataset_eval.py</code></li>
+                    <li><strong>Inference:</strong> <code>python inference.py --image face.jpg</code></li>
+                    <li><strong>Test model:</strong> <code>python test_model.py</code></li>
+                    <li><strong>Full guide:</strong> <a href="/guide" style="color:#58a6ff;">Training Guide →</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SOTA Comparison -->
+        <div class="two-col">
+            <div class="info-card">
+                <h3>vs State of the Art</h3>
+                <ul>
+                    <li><strong>XceptionNet:</strong> 99.7% FF++ → 65% CelebDF (overfits)</li>
+                    <li><strong>Face X-ray:</strong> Only detects blending boundaries</li>
+                    <li><strong>Light2Lie (NDSS'26):</strong> Physics, but only 3 signals</li>
+                    <li><strong>M2F2-Det (CVPR'25):</strong> CLIP+LLM, good but black box</li>
+                    <li><strong>PhysForensics:</strong> 10 physics signals, interpretable, generalizable</li>
+                    <li><strong>Key advantage:</strong> Physics laws don't change when generators do</li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>New Physics Laws (v2 Extended)</h3>
+                <ul>
+                    <li><strong>Shadow geometry:</strong> Cast shadows align with SH light direction</li>
+                    <li><strong>Spectral skin:</strong> Color = melanin + hemoglobin (Beer-Lambert)</li>
+                    <li><strong>RGB constraint:</strong> Real skin always has R &gt; G &gt; B</li>
+                    <li><strong>Skin gamut:</strong> Colors must lie within measured skin gamut</li>
+                    <li><strong>F₀ = 0.028:</strong> Skin Fresnel constant from IOR n=1.4</li>
+                    <li><strong>SH band ratio:</strong> Real lighting: l0+l1 energy &gt;&gt; l2 energy</li>
                 </ul>
             </div>
         </div>
@@ -363,7 +335,8 @@
     </div>
 
     <footer>
-        PhysForensics — Detecting deepfakes by checking if faces obey the laws of physics.
+        PhysForensics — Detecting deepfakes by checking if faces obey the laws of physics. &nbsp;|&nbsp;
+        <a href="/guide" style="color:#6e7681;">Training Guide</a>
     </footer>
 </body>
 </html>
